@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from openai_api.api import OpenAI, list_models, create_completion
+from openai_api.api import OpenAI, list_models, create_completion, create_chat_completion
 import os
 
 VERSION = os.getenv('APP_VER')
 ORG_ID = os.getenv('ORG_ID')
 SECRET_KEY = os.getenv('SECRET_KEY')
+SYSTEM_PROMPT = 'You are CompanionGPT aka ChatGPT. Your task is to be a helpful assistant.'
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -31,6 +32,17 @@ def completion():
         return jsonify(error=f'Requested model not supported in v1/completion. Supported models {supported_models}'), 400
 
     return create_completion(input_prompt, model=model)
+
+
+@app.route(f'/api/{VERSION}/chat-completion', methods=['POST'])
+def chat_completion():
+    supported_models = ['gpt-4', 'gpt-4-0314', 'gpt-4-32k', 'gpt-4-32k-0314', 'gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
+    user_input = request.json['user']
+    model = request.json['model']
+    if model not in supported_models:
+        return jsonify(error=f'Requested model not supported in v1/chat-completion. Supported models {supported_models}'), 400
+
+    return create_chat_completion(SYSTEM_PROMPT, user_input, model=model)
 
 
 if __name__ == '__main__':
