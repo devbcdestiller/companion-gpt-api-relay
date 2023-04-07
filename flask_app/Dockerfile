@@ -1,15 +1,11 @@
-FROM python:3.8.10
+FROM python:3.10.9
 
 COPY . /flask_app
 WORKDIR /flask_app
 
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+ENV PIPENV_VENV_IN_PROJECT=1
 
-EXPOSE 5000
+RUN set -ex && pip install -U pipenv
+RUN set -ex && pipenv install --system
 
-# Use this entry point in development
-# ENTRYPOINT ["python", "app.py"]
-
-# Use this ENTRYPOINT and CMD production
-ENTRYPOINT ["gunicorn", "--config", "gunicorn_config.py", "app:app"]
+CMD ["gunicorn", "--config", "gunicorn_config.py", "app:app"]

@@ -7,5 +7,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:5000"
-    volumes:
-      - ./flask_app:/flask_app
+    env_file:
+        - .env
+

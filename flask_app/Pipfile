@@ -9,6 +9,7 @@ flask = "~=2.2.3"
 requests = "*"
 flask-cors = "*"
 openai = "*"
+gunicorn = "*"
 
 [dev-packages]
 
