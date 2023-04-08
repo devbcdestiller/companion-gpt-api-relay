@@ -1,7 +1,7 @@
 FROM python:3.10.9
 
-COPY . /flask_app
-WORKDIR /flask_app
+COPY . /sys-companion-gpt-api
+WORKDIR /sys-companion-gpt-api
 
 ENV PIPENV_VENV_IN_PROJECT=1
 
