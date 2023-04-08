@@ -8,4 +8,4 @@ ENV PIPENV_VENV_IN_PROJECT=1
 RUN set -ex && pip install -U pipenv
 RUN set -ex && pipenv install --system
 
-CMD ["gunicorn", "--config", "gunicorn_config.py", "app:app"]
+CMD ["gunicorn", "main:app", "--config", "gunicorn.conf.py"]
