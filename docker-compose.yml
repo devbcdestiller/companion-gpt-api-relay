@@ -1,11 +1,12 @@
 version: "3.7"
 services:
-  flask_app:
-    container_name: flask_app
+  sys-companion-gpt-api:
+    container_name: sys-companion-gpt-api
     build:
-      context: ./flask_app
+      context: ./sys-companion-gpt-api
       dockerfile: Dockerfile
     ports:
       - "80:5000"
-    volumes:
-      - ./flask_app:/flask_app
+    env_file:
+        - .env
+
